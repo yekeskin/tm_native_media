@@ -1,7 +1,7 @@
 name: tm_native_media
 description: Native helpers for tm_media_tools plugin.
 version: 0.0.1
-homepage:
+homepage: https://github.com/yekeskin/tm_native_media
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
