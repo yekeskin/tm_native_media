@@ -3,6 +3,7 @@ package com.teknorota.tm_native_media;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.MediaMetadataRetriever;
 
 import java.io.ByteArrayOutputStream;
 
@@ -56,6 +57,25 @@ public class ImageTools {
         Bitmap rotatedBitmap = Bitmap.createBitmap(inputBitmap, 0, 0, inputBitmap.getWidth(), inputBitmap.getHeight(), matrix, true);
         inputBitmap.recycle();
         return rotatedBitmap;
+    }
+
+    public static MediaInformation getImageInformation(String inputPath) {
+        MediaInformation info = new MediaInformation();
+
+        try {
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(inputPath);
+            info.width = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_IMAGE_WIDTH));
+            info.height = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_IMAGE_HEIGHT));
+            info.durationMs = 0;
+            info.orientation = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_IMAGE_ROTATION));
+            info.mimeType = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+            retriever.release();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return info;
     }
 
     private static int[] calculateAspectRatio(int origWidth, int origHeight, int width, int height) {

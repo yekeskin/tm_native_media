@@ -113,6 +113,10 @@ public class TMNativeMedia implements FlutterPlugin, MethodCallHandler {
         String inputPath2 = call.argument("input");
         result.success(VideoTools.getVideoInformation(inputPath2).toHashMap());
         break;
+      case "imageInformation":
+        String inputPath3 = call.argument("input");
+        result.success(ImageTools.getImageInformation(inputPath3).toHashMap());
+        break;
       case "processVideo":
         processVideo(call, result);
         break;

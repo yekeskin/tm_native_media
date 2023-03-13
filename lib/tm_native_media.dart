@@ -58,14 +58,22 @@ class TMNativeMedia {
     return new File(file);
   }
 
-  static Future<Map> videoInformation(
+  static Future<MediaInformation> videoInformation(
     String inputPath,
   ) async {
     Map info = await _channel.invokeMethod("videoInformation", {
       'input': inputPath,
     });
 
-    return info;
+    final mi = MediaInformation(
+      width: info['width'],
+      height: info['height'],
+      durationMs: info['durationMs'],
+      orientation: info['orientation'],
+      mimeType: info['mimeType'],
+    );
+
+    return mi;
   }
 
   static Future<File> processVideo(
@@ -133,6 +141,24 @@ class TMNativeMedia {
       _transcodeEventLoaded = true;
     }
   }
+
+  static Future<MediaInformation> imageInformation(
+    String inputPath,
+  ) async {
+    Map info = await _channel.invokeMethod("imageInformation", {
+      'input': inputPath,
+    });
+
+    final mi = MediaInformation(
+      width: info['width'],
+      height: info['height'],
+      durationMs: info['durationMs'],
+      orientation: info['orientation'],
+      mimeType: info['mimeType'],
+    );
+
+    return mi;
+  }
 }
 
 class VideoTranscodeEvent {
@@ -153,4 +179,20 @@ class VideoTranscodeEvent {
     this.error,
     this.errorMessage,
   );
+}
+
+class MediaInformation {
+  final int width;
+  final int height;
+  final int durationMs;
+  final int orientation;
+  final String mimeType;
+
+  MediaInformation({
+    this.width = 0,
+    this.height = 0,
+    this.durationMs = 0,
+    this.orientation = 0,
+    this.mimeType = "",
+  });
 }
