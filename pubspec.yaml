@@ -1,6 +1,6 @@
 name: tm_native_media
 description: Native helpers for tm_media_tools plugin.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/yekeskin/tm_native_media
 
 environment:
